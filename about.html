@@ -1,50 +1,84 @@
-<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-        <meta name="description" content="Affordable and profesional Web Design">
-        <meta name="keywords" content="web, affordable Web, Web design">
-        <meta name="author" content="Sammy Puraci">
-        <title>Sammy Web Design | About </title>
-        <link rel="stylesheet" href="./css/Style.css">
-    </head>
-    <body>  
-        <header>
-            <div class="container">
-                <div id="branding">
-                    <h1><span class="highlight">Sammy</span> Web Design</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li class="current"><a href="about.html">About</a></a></li>
-                    <li><a href="services.html">Services</a></li>
-                </ul>
-            </nav>
-        </header>
-        <section id="newsletter">
-            <div class="container">
-                <h1>Subscribe To Our Newsletter</h1>
-                <form>
-                    <input type="email" placeholder="Enter Email...">
-                    <button type="submit" class="button_1">Subscribe</button>
-                </form>
-            </div>
-        </section>
-        <section id="main">
-            <div class="conatainer">
-                <article id="main-col">
-                    <h1 class="page-title"></h1>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi venenatis, ante vitae elementum dapibus, sapien ex ultricies massa, tempus dapibus nisl elit et leo. Quisque pharetra augue lectus, sit amet luctus libero luctus ut. Mauris porta, est et finibus elementum, leo nisl imperdiet nibh, in cursus lacus felis in quam. In ac ullamcorper enim, sit amet egestas mauris. Suspendisse laoreet urna quis leo ultricies, non gravida metus facilisis. Etiam rutrum tellus sed elit sodales consectetur. Aenean leo nisl, mattis et lacus a, volutpat cursus augue. Pellentesque id augue vel est cursus posuere. Mauris ultricies risus nec dui tempor eleifend. Suspendisse bibendum est quis felis convallis consequat at maximus sem. Nunc vitae ipsum ac tortor maximus sodales sit amet eu ante. In molestie, tellus quis posuere placerat, neque massa accumsan leo, vitae cursus lorem magna vitae nulla. Aliquam erat volutpat. Duis porttitor sem id semper imperdiet. Pellentesque posuere augue quis blandit ornare. Proin vel condimentum neque.
-                    </p>
-                </article>
-            </div>
-        </section>
-        <footer>
-            <p>Sammy Web Design, Copyright &copy; 2017</p>
-        </footer>
-    </body>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Processing Demo</title>
+<script type="text/javascript" src="./something/something.js"></script>
+</head>
+<body>
+<script type="text/processing">
+/**
+  *@Sammy Puraci
+  *@verion 1.0 date May 2nd
+  */
+   PImage backImg;
+  PImage birdImg;
+  PImage wallImg;
+  //scores
+int  gamestate = 0;
+int score = 0;
+int highscore = 0;
+int x= -200, y, vy = 0;
+int[] wx = new int[2];
+int[] wy = new int[2];
+void setup() {
+  size(600,750);
+  fill(0);
+  textSize(40);
+  // images
+   backImg = loadImage("./img/b.png");
+   birdImg = loadImage("./img/bird.png");
+   wallImg = loadImage("./img/pipe.png");
+}
+void draw() {
+  if(gamestate == 0){
+    imageMode(CORNER);
+    image(backImg, x, 0);
+    image(backImg, x+backImg.width, 0);
+    image(birdImg, width/2, y);
+    x -= 6;
+    vy += 1;
+    y += vy;
+    if(x == -600) x = 0;
+    for(int i = 0 ; i < 2; i++){
+      // pipes
+      imageMode(CENTER);
+      image(wallImg,wx[i], wy[i] - (wallImg.height/2+100));
+      image(wallImg, wx[i], wy[i] + (wallImg.height/2+150));
+      if(wx[i] < 0){
+      wy[i] =  (int)random(200,height-200);
+      wx[i] = width;
+      }
+      if(wx[i] == width/2){
+        score++;
+        highscore = max(score, highscore);
+      }
+      if( y > height || y < 0 || (abs(width/2-wx[i])<25 && abs(y-wy[i])>100)) {
+        gamestate = 1;
+        score = 0;
+      }
+      wx[i] -= 6;
+    }
+    //scores
+    text("current"+score, width/2-20,700);
+    text("highscore"+highscore, width/2-20, 600);
     
+  }
+}
+//flapping , movements
+void mousePressed() {
+  vy = -17;
+  if(gamestate==1){
+    wx[0] = 600;
+    wy[0] = height/2;
+    wx[1] = 900;
+    wy[1] = 600;
+    x = 0; 
+    y = height / 2;
+    gamestate = 0;
+    
+}
+}
+</script>
+<canvas id="sketch" style="border: 1px solid black;"></canvas>
+</body>
 </html>
