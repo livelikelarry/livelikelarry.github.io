@@ -1,0 +1,81 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Processing Demo</title>
+<script type="text/javascript" src="./something/something.js"></script>
+</head>
+<body>
+<script type="text/processing">
+
+/**
+  *@Sammy Puraci
+  *@verion 1.0 date May 31st
+  */
+   int score = 0;
+ int gamestate = 0;
+ PImage victory;
+ 
+ void setup() {
+    size(500,500);
+    background(0);
+    textSize(40);
+    rect(200,200,100,100);
+    rect(75,400,100,50);
+    fill(0);
+//Image
+    victory = loadImage("./img/victory.png");
+ }
+ 
+  void draw() {
+   gamestate = 0;
+    if(gamestate == 0){
+    fill(255);
+    rect(200,200,100,100);
+    rect(75,400,100,50);
+    fill(0);
+    textSize(20);
+    text("RESTART" , 80, 430);
+    fill(255);
+    text("Current: " +score, 200,200);
+    text("CPS Tester", 100, 50);
+    fill(255);
+    //if they reach 50 points then they win and can restart the game
+    if(score == 50){
+    gamestate = 1;
+    if (gamestate ==1);
+    background(0);
+    //text saying you win
+    text("YOU WIN!!!" ,200,200);
+    //loads image
+    image(victory,50, 300);
+    rect(75,400,100,50);
+    fill(0);
+    text("RESTART" , 80, 430);
+    //mouse tracking for restart button
+    if (mouseX > 75 && mouseX < 175 && mouseY > 400 && mouseY < 450 && mousePressed){
+      background(0);
+       score = 0;
+        
+ }
+   
+    }
+    }
+ 
+ }
+void mousePressed() {
+    if (mouseX > 200 && mouseX < 300 && mouseY > 200 && mouseY < 300){
+      background(0);
+        fill(0);  
+        score ++;
+      }
+    else if (mouseX > 75 && mouseX < 175 && mouseY > 400 && mouseY < 450){
+      background(0);
+       score = 0;
+    }
+
+} 
+  
+  </script>
+<canvas id="sketch" style="border: 1px solid black;"></canvas>
+</body>
+</html>
